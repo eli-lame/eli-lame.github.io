@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elijah LaMothe</title>
+<meta name="description" content="Elijah — Mechanical Engineering at UC Berkeley. MechE, EE and CS projects, research and experience.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: split screen. Left column stays pinned over the artwork (name, nav, links);
+   right column scrolls on a darker wash. One night-time look on purpose. */
+:root{
+  color-scheme:dark;
+  --text:#f2eaf3; --muted:#b9abc0; --dim:#85778f;
+  --accent:#f5a9c6; --accent-2:#bba9ff;
+  --card:rgba(255,255,255,.045); --card-hover:rgba(255,255,255,.075); --line:rgba(255,255,255,.1);
+  --sans:"Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"DM Mono", ui-monospace, Menlo, monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-behavior:smooth}
+body{margin:0; background:#140e1f; color:var(--text); font:400 16px/1.7 var(--sans); -webkit-font-smoothing:antialiased}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:#140e1f}
+a{color:inherit}
+::selection{background:var(--accent); color:#1a1024}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px}
+
+/* background art + wash + a little film grain */
+#bg{position:fixed; inset:0; z-index:-2; background:#140e1f center 40% / cover no-repeat}
+#wash{position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(90deg, rgba(20,14,31,.12) 0%, rgba(20,14,31,.2) 34%, rgba(20,14,31,.88) 47%, rgba(20,14,31,.94) 100%)}
+#wash::after{content:""; position:absolute; inset:0; opacity:.07; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.layout{max-width:1200px; margin:0 auto; display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:64px;
+  padding-left:max(24px,env(safe-area-inset-left,0px)); padding-right:max(24px,env(safe-area-inset-right,0px))}
+
+/* ---------- left ---------- */
+.side{position:sticky; top:0; height:100vh; height:100dvh; display:flex; flex-direction:column; justify-content:space-between; padding-block:56px 40px; gap:16px}
+.side > div{background:rgba(24,16,38,.62); -webkit-backdrop-filter:blur(16px) saturate(1.15); backdrop-filter:blur(16px) saturate(1.15);
+  border:1px solid rgba(255,255,255,.09); border-radius:18px; padding:24px 26px; box-shadow:0 12px 40px rgba(15,8,25,.28); width:max-content; max-width:100%}
+.side > div:first-child{padding-bottom:20px}
+.where{font:400 .8rem var(--mono); color:#cfc3d6; display:flex; align-items:center; gap:8px}
+.dot{width:7px; height:7px; border-radius:50%; background:#8ef0b4; box-shadow:0 0 10px #8ef0b4; animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+h1{margin:16px 0 0; white-space:nowrap; font:700 clamp(2.3rem,3.9vw,3.6rem)/1 var(--sans); letter-spacing:-.02em}
+.role{margin:22px 0 0; font-weight:500; font-size:1.12rem}
+.tagline{margin:8px 0 0; color:#d9cfdf; max-width:36ch; font-size:1.02rem}
+nav.toc{margin-top:30px; display:grid; gap:4px}
+.toc a{display:flex; align-items:center; gap:14px; width:max-content; padding:6px 0; text-decoration:none; font:500 .76rem var(--mono); letter-spacing:.14em; text-transform:uppercase; color:#b8abc2; transition:color .2s; cursor:pointer}
+.toc a::before{content:""; height:1px; width:28px; background:currentColor; transition:width .25s ease}
+.toc a:hover,.toc a.on{color:#fff}
+.toc a:hover::before,.toc a.on::before{width:56px}
+.links{display:flex; flex-wrap:wrap; gap:6px 20px; font:400 .8rem var(--mono)}
+.links a{text-decoration:none; color:#d9cfdf; transition:color .15s}
+.links a:hover{color:var(--accent)}
+.now{margin:0 0 12px; font:400 .8rem var(--mono); color:#d9cfdf}
+.now b{color:var(--accent); font-weight:500}
+
+/* ---------- right ---------- */
+.content{padding-block:72px 40px; min-width:0}
+section{margin-bottom:88px; scroll-margin-top:40px}
+h2{margin:0 0 26px; display:flex; align-items:baseline; gap:12px; font:500 .78rem var(--mono); letter-spacing:.16em; text-transform:uppercase; color:var(--muted)}
+h2::after{content:""; flex:1; height:1px; background:var(--line); align-self:center}
+.prose p{margin:0 0 16px; color:var(--muted); max-width:62ch}
+.prose strong{color:var(--text); font-weight:500}
+.skills{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px 24px; margin-top:28px}
+.skills h3{margin:0 0 8px; font:500 .7rem var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--dim)}
+.pills{display:flex; flex-wrap:wrap; gap:6px}
+.pill{white-space:nowrap; font:400 .78rem var(--mono); color:var(--accent); background:rgba(245,169,198,.1); border-radius:999px; padding:2px 10px}
+
+.filters{display:flex; gap:6px; flex-wrap:wrap; margin:-6px 0 20px}
+.filter{font:400 .78rem var(--mono); color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:999px; padding:4px 12px; cursor:pointer; transition:all .15s}
+.filter:hover{color:var(--text); border-color:rgba(255,255,255,.25)}
+.filter[aria-pressed="true"]{color:#1a1024; background:var(--accent); border-color:var(--accent)}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr)); gap:16px}
+.card{display:flex; flex-direction:column; border-radius:14px; background:var(--card); border:1px solid var(--line); overflow:hidden; transition:background .2s, border-color .2s, transform .2s}
+.card:hover{background:var(--card-hover); border-color:rgba(245,169,198,.35); transform:translateY(-2px)}
+.thumb{position:relative; display:block; width:100%; aspect-ratio:16/10; max-width:100%; padding:0; border:0; cursor:pointer; overflow:hidden; background:radial-gradient(ellipse at 50% 70%, rgba(187,169,255,.22), rgba(255,255,255,.02) 70%)}
+.thumb:disabled{cursor:default}
+.thumb img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.thumb img[data-snap],.thumb img[data-thumb]{object-fit:contain}
+.thumb .hint{position:absolute; right:10px; bottom:8px; font:400 .66rem var(--mono); color:var(--muted); opacity:.75; transition:opacity .2s}
+.thumb.wip{cursor:default; display:flex; flex-direction:column; justify-content:center; gap:14px; padding:18px 16px 30px}
+.thumb.wip svg{width:100%; height:44%; border:1px solid var(--line); border-radius:6px; background:rgba(10,6,18,.35)}
+.thumb.wip .grid line{stroke:rgba(255,255,255,.07); stroke-width:1; vector-effect:non-scaling-stroke}
+.thumb.wip polyline{fill:none; stroke:var(--accent-2); stroke-width:1.6; vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 3px rgba(187,169,255,.6))}
+.thumb.wip .chain{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:4px 6px; font:400 .66rem var(--mono); color:var(--muted)}
+.thumb.wip .chain span{padding:2px 8px; border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,.03)}
+.thumb.wip .chain i{font-style:normal; color:var(--dim)}
+.card:hover .thumb .hint{opacity:1}
+.card-body{display:flex; flex-direction:column; gap:6px; padding:14px 16px 16px; flex:1; min-width:0}
+.card-body h3{margin:0; font:700 1rem/1.35 var(--sans)}
+.card-body p{margin:0; font-size:.92rem; color:var(--muted)}
+.meta{font:400 .7rem var(--mono); letter-spacing:.06em; color:var(--dim); text-transform:uppercase}
+.tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:6px}
+.tags span{font:400 .7rem/1.5 var(--mono); color:var(--accent-2); background:rgba(187,169,255,.1); border-radius:999px; padding:3px 10px}
+.note{font-size:.82rem !important; color:var(--dim) !important; border-left:2px solid var(--accent); padding-left:8px}
+.note::before{content:"todo · "; font:400 .7rem var(--mono); color:var(--accent)}
+
+.rows{display:grid; gap:10px}
+.row{display:grid; grid-template-columns:140px 1fr; gap:20px; padding:16px; margin:0 -16px; border-radius:12px; transition:background .2s}
+.row:hover{background:var(--card)}
+.row > *{min-width:0}
+.row .when{font:400 .74rem/2 var(--mono); color:var(--dim); text-transform:uppercase; letter-spacing:.04em}
+.row h3{margin:0; font:700 1rem/1.4 var(--sans)}
+.row .org{margin:0; color:var(--accent); font-size:.9rem}
+.row ul{margin:8px 0 0; padding-left:18px; color:var(--muted); font-size:.94rem}
+.row p{margin:6px 0 0; color:var(--muted); font-size:.94rem}
+.photo{margin:14px 0 0}
+.photo img{display:block; max-width:100%; max-height:460px; width:auto; border-radius:10px}
+.photo figcaption{margin-top:6px; font:400 .72rem var(--mono); color:var(--dim)}
+.figure{margin-top:12px; border:1px dashed var(--line); border-radius:10px; display:grid; place-items:center; min-height:120px; font:400 .74rem var(--mono); color:var(--dim); text-align:center; padding:14px}
+
+.btn{display:inline-flex; align-items:center; gap:6px; font:400 .76rem var(--mono); color:var(--text); background:transparent; border:1px solid var(--line); border-radius:999px; padding:5px 12px; text-decoration:none; cursor:pointer; transition:all .15s}
+.btn:hover{border-color:var(--accent); color:var(--accent)}
+.actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+
+footer{font:400 .72rem var(--mono); color:var(--dim); line-height:1.8}
+
+/* ---------- 3D modal ---------- */
+dialog{width:min(920px,calc(100% - 32px)); max-height:calc(100% - 32px); padding:0; color:var(--text); background:#1b1428; border:1px solid var(--line); border-radius:18px; box-shadow:0 30px 80px rgba(0,0,0,.5); overflow:auto}
+dialog::backdrop{background:rgba(10,6,16,.65); backdrop-filter:blur(6px)}
+.dlg{display:grid; grid-template-columns:1.5fr 1fr}
+.dlg > *{min-width:0}
+.view{display:flex; flex-direction:column; min-width:0}
+.tabs{display:flex; gap:4px; padding:10px 12px 0; flex-wrap:wrap}
+.tab{font:400 .74rem var(--mono); color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:999px; padding:4px 12px; cursor:pointer; transition:all .15s}
+.tab:hover{color:var(--text); border-color:rgba(255,255,255,.25)}
+.tab[aria-selected="true"]{color:#1a1024; background:var(--accent); border-color:var(--accent)}
+.pic{position:relative; flex:1; min-height:420px; display:flex; flex-direction:column; gap:8px; padding:12px}
+.pic video{flex:1; min-height:0; width:100%; max-height:62vh; object-fit:contain; border-radius:10px; background:#0d0a14}
+.pic img{flex:1; min-height:0; width:100%; max-height:62vh; object-fit:contain; border-radius:10px; background:transparent}
+.pic a{align-self:flex-end; font:400 .72rem var(--mono); color:var(--muted); text-decoration:none}
+.pic a:hover{color:var(--accent)}
+.views{display:flex; gap:6px; flex-wrap:wrap; margin-top:2px}
+.views button{font:400 .7rem/1.5 var(--mono); color:var(--accent-2); background:rgba(187,169,255,.1); border:0; border-radius:999px; padding:3px 10px; cursor:pointer; transition:background .15s, color .15s}
+.views button:hover{background:rgba(187,169,255,.22); color:var(--text)}
+.stage{position:relative; flex:1; min-height:420px; cursor:grab; background:radial-gradient(ellipse at 50% 65%, rgba(187,169,255,.2), rgba(255,255,255,.02) 70%)}
+.stage:active{cursor:grabbing}
+.stage canvas{position:absolute; inset:0; width:100% !important; height:100% !important}
+.stage .fallback{position:absolute; inset:0; display:grid; place-items:center; font:400 .78rem var(--mono); color:var(--dim)}
+.dlg-info{padding:26px 22px; display:flex; flex-direction:column; gap:10px; border-left:1px solid var(--line)}
+.dlg-info h3{margin:0; font:700 1.3rem/1.25 var(--sans)}
+.dlg-info p{margin:0; color:var(--muted); font-size:.94rem}
+.close{position:absolute; top:12px; right:12px; z-index:2; background:#1b1428}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr); gap:0}
+  .side > div{width:auto}
+  h1{white-space:normal}
+  .side{position:static; height:auto; padding-block:56px 32px}
+  nav.toc{display:none}
+  #wash{background:linear-gradient(180deg, rgba(20,14,31,.4) 0%, rgba(20,14,31,.82) 55vh, rgba(20,14,31,.94) 100%)}
+  .content{padding-top:24px}
+  .dlg{grid-template-columns:1fr}
+  .dlg-info{border-left:0; border-top:1px solid var(--line)}
+  .stage,.pic{min-height:300px}
+}
+@media (max-width:520px){
+  .layout{padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .row{grid-template-columns:1fr; gap:2px}
+}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important; scroll-behavior:auto !important} }
+</style>
+</head>
+<body>
+<div id="bg" aria-hidden="true"></div>
+<div id="wash" aria-hidden="true"></div>
+
+<div class="layout">
+  <header class="side">
+    <div>
+      <p class="where"><span class="dot" aria-hidden="true"></span><span id="where"></span></p>
+      <h1 id="name"></h1>
+      <p class="role" id="role"></p>
+      <p class="tagline" id="tagline"></p>
+      <nav class="toc" id="toc" aria-label="Sections"></nav>
+    </div>
+    <div>
+      <p class="now" id="now"></p>
+      <div class="links" id="links"></div>
+    </div>
+  </header>
+
+  <main class="content">
+    <section id="about">
+      <h2>About</h2>
+      <div class="prose" id="about-body"></div>
+      <div class="skills" id="skills"></div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <div class="rows" id="xp"></div>
+    </section>
+
+    <section id="research">
+      <h2>Research</h2>
+      <div class="rows" id="research-rows"></div>
+    </section>
+
+    <footer id="footer"></footer>
+  </main>
+</div>
+
+<dialog id="model-dialog" aria-labelledby="dlg-title">
+  <button class="btn close" type="button" id="dlg-close" aria-label="Close">✕</button>
+  <div class="dlg">
+    <div class="view">
+      <div class="tabs" id="dlg-tabs" role="tablist" hidden></div>
+      <div class="stage" id="modal-stage"><div class="fallback">Loading 3D viewer…</div></div>
+      <div class="pic" id="dlg-pic" hidden><img id="dlg-img" alt=""><video id="dlg-vid" controls muted loop playsinline preload="metadata" hidden></video><a id="dlg-full" href="#" target="_blank" rel="noopener">Open full size ↗</a></div>
+    </div>
+    <div class="dlg-info">
+      <span class="meta" id="dlg-meta"></span>
+      <h3 id="dlg-title"></h3>
+      <p id="dlg-summary"></p>
+      <p class="meta" id="dlg-hint">Drag to rotate · scroll or pinch to zoom · double-click to reset</p>
+      <p class="meta" id="dlg-status" style="color:var(--accent)"></p>
+      <div class="actions" id="dlg-actions"></div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* ==========================================================================
+   EDIT ME — all the words on the site live here.
+   SITE.background: save a high-res image (1920px wide or more) in img/ and
+     put its file name here.
+   PROJECTS
+     disciplines: any of "meche", "ee", "cs" (drives the filter chips)
+     image:  photo path, e.g. "img/hopcopter.jpg" (optional)
+     model:  .glb path, e.g. "models/pdb.glb". Leave null to show the placeholder
+             shape ("sub", "pcb", "quad", "gear", "wheel", "scope"), or set
+             placeholder: null for no 3D view.
+     rotate: optional [x, y, z] degrees, e.g. [-90, 0, 0] for Z-up CAD exports
+     note:   reminder shown as a "todo" line; delete once filled in
+     gallery: optional extra views, e.g. [{ label: "Schematic", src: "img/x.png" }]
+     thumb:  pre-rendered card picture (img/thumbs/<id>.png) so the 3D file only
+             downloads when someone opens the viewer
+   ========================================================================== */
+const SITE = {
+  name: "Elijah LaMothe",
+  role: "Mechanical Engineering + EECS minor @ UC Berkeley ’29",
+  tagline: "I build robots, and the boards and code that run them.",
+  place: "Berkeley, CA",
+  timezone: "America/Los_Angeles",
+  now: "rebuilding RoboSub's electronics",
+  background: "img/background.jpg",
+  email: "elamothe@berkeley.edu",
+  links: [
+    { label: "GitHub",   href: "https://github.com/eli-lame" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/elijah-lamothe/" },
+    { label: "Résumé",   href: "Elijah_LaMothe_Resume.pdf" },
+  ],
+  credit: "Background: Steven Universe © Cartoon Network",
+};
+
+const ABOUT = {
+  bio: [
+    "I study <strong>mechanical engineering with an EECS minor at UC Berkeley</strong>, class of 2029. Most of my time goes into <strong>UC Berkeley RoboSub</strong>, where I'm vice president and project manager for both the electrical and software/controls teams on our 2026–27 vehicle.",
+    "I like work that crosses mechanical, electrical and software lines: designing the mechanical side, laying out the boards, and writing the firmware that runs it all. This summer I did research at <strong>TAFLab</strong>, building and field-testing autonomous ocean-monitoring drones.",
+  ],
+  skills: [
+    { group: "Hardware & EDA", items: ["KiCad", "Altium", "PCB design", "STM32", "ESP32", "FPGA (intro)"] },
+    { group: "Programming", items: ["Python", "Embedded C", "Java", "Git"] },
+    { group: "Robotics", items: ["ROS2", "PX4", "Gazebo", "Unity", "PID control"] },
+    { group: "CAD & fab", items: ["Onshape · Associate", "Onshape · Professional", "SolidWorks", "Fusion 360", "3D printing"] },
+  ],
+};
+
+const PROJECTS = [
+  {
+    id: "robosub-electrical",
+    title: "Tardigrade Electrical Stack",
+    disciplines: ["ee"],
+    date: "2025 – Now", status: "Prototype due Dec 2026",
+    summary: "Electrical architecture for RoboSub's next vehicle: three stacked cards on one keyed 2×20 connector. A passive power card switches the thrusters, a Nucleo-G431KB adapter card runs flight control, and an STM32 safety card decides when thrusters can turn on. Every kill path except a lost Jetson works without firmware, and it all talks CAN to the Jetson for under $1,000.",
+    tags: ["Architecture", "CAN", "STM32", "Power", "Safety"],
+    image: "img/tardigrade-thumb.jpg", model: null, placeholder: null, links: [],
+    gallery: [
+      { label: "System overview", src: "img/tardigrade-overview.png" },
+      { label: "Full wiring", src: "img/tardigrade-wiring.png" },
+      { label: "Stack pinout", src: "img/tardigrade-pinout.png" },
+    ],
+  },
+  {
+    id: "hopcopter",
+    title: "HOPCopter",
+    disciplines: ["ee", "meche", "cs"],
+    date: "2026 – Now", status: "In progress",
+    summary: "Custom autonomous quadcopter. I designed the electronics and a 4S power distribution PCB in KiCad with regulated rails for the ESP32 flight computer, IMU and time-of-flight sensors, CAD'd and 3D-printed the frame, and I'm writing firmware toward IMU-based state estimation and PID altitude and position hold.",
+    tags: ["KiCad", "ESP32", "PID", "3D printing"],
+    image: null, thumb: "img/thumbs/hopcopter.png", model: "models/hopcopter.glb", rotate: [-90, 0, 0], placeholder: "quad", links: [],
+  },
+  {
+    id: "hop-carrier",
+    title: "HOPCopter Flight Carrier PCB",
+    disciplines: ["ee"],
+    date: "2026", status: "",
+    summary: "Custom KiCad carrier board that turns an ESP32 into the HOPCopter's flight computer. Battery power comes in through a fuse, TVS diode and 100 µF bulk cap to a Pololu 5 V buck. The board breaks out SPI to an ICM-20948 9-DoF IMU, I²C to two VL53L0X time-of-flight sensors with separate XSHUT lines, four ESC signal outputs with series resistors, a UART header for an ELRS receiver, a battery-voltage divider into the ADC, a buzzer, a power LED, and test points on every rail.",
+    tags: ["KiCad", "ESP32", "ICM-20948", "VL53L0X", "Power"],
+    image: null, thumb: "img/thumbs/hop-carrier.png", model: "models/carrier-pcb.glb", rotate: [-90, 0, 0], placeholder: "pcb", links: [],
+    gallery: [
+      { label: "Layout", src: "img/carrier-layout.png" },
+      { label: "Schematic", src: "img/carrier-schematic.png" },
+    ],
+  },
+  {
+    id: "oscilloscope",
+    title: "FPGA Digital Oscilloscope",
+    disciplines: ["ee"],
+    date: "Fall 2026 – Now", status: "In progress",
+    summary: "APE DeCal team build of a digital oscilloscope from scratch, with an FPGA routing sampled signal data in real time. Lots of digital logic, signal acquisition and bench bring-up.",
+    tags: ["FPGA", "Digital logic", "DAQ"],
+    image: null, model: null, placeholder: null, links: [],
+    // no CAD yet: the card shows a scope-screen panel with this signal chain instead
+    wip: { stages: ["Probe", "Front end", "ADC", "FPGA", "Display"], caption: "signal path · build log coming soon" },
+  },
+  {
+    id: "robosub-software",
+    title: "RoboSub Software & Controls",
+    disciplines: ["cs"],
+    date: "2025 – Now", status: "In progress",
+    summary: "The autonomy stack for Tardigrade: a modular ROS 2 setup on a Jetson AGX Xavier that splits perception, localization, mission planning and control. ZED visual odometry plus a VectorNav IMU estimate the vehicle's state, BehaviorTree.CPP runs the Gate and Slalom missions, and PX4 on a Pixhawk handles low-level stabilization. Perception uses YOLOv11n trained on synthetic data, with XFeat feature matching to line up with the gate. Before pool time, we test the vehicle in a Gazebo underwater sim.",
+    tags: ["ROS 2", "PX4", "Behavior trees", "Computer vision"],
+    image: "img/robosub-sw/thumb.jpg", model: null, placeholder: null, links: [],
+    gallery: [
+      { label: "Gazebo model", src: "img/robosub-sw/gazebo.jpg" },
+      { label: "Sim: Tardigrade", src: "img/robosub-sw/sim-tardigrade.mp4", poster: "img/robosub-sw/sim-tardigrade-poster.jpg", video: true },
+      { label: "Sim: underwater", src: "img/robosub-sw/sim-underwater.mp4", poster: "img/robosub-sw/sim-underwater-poster.jpg", video: true },
+      { label: "Architecture", src: "img/robosub-sw/architecture.jpg" },
+      { label: "Mission planning", src: "img/robosub-sw/mission-planning.jpg" },
+      { label: "Localization & control", src: "img/robosub-sw/localization-control.jpg" },
+      { label: "Gate alignment", src: "img/robosub-sw/gate-alignment.jpg" },
+    ],
+  },
+  {
+    id: "gesture-arm",
+    title: "Gesture-Controlled Robotic Arm",
+    disciplines: ["cs", "meche", "ee"],
+    date: "Jan 2026", status: "",
+    summary: "A robotic arm you drive by waving at it. A Python + OpenCV hand-tracking script on my laptop reads gestures from the webcam and streams commands over USB to an Arduino, which moves high-torque servos to follow along. I designed the base, battery holder and breadboard mount in Onshape and kept the build cheap: an Arduino, an L298N driver, a breadboard and hobby servos.",
+    tags: ["OpenCV", "Python", "Arduino", "Servos", "Onshape"],
+    image: null, thumb: "img/thumbs/gesture-arm.png", model: "models/robotic-arm.glb", placeholder: "gear", links: [],
+  },
+  {
+    id: "tidytide",
+    title: "TidyTide Pool Skimmer",
+    disciplines: ["meche", "ee", "cs"],
+    date: "2024 – 25", status: "Engineering 4, team of 3",
+    summary: "A robot that drives itself around a pool and skims floating debris into a filtration basket. Two bilge pumps push it across the surface, the electronics sit in a raised compartment to stay dry, and an Arduino handles steering. We started with sonar to find the walls, then switched to adjustable limit-switch bumpers once sonar proved unreliable near water. Along the way we tested two custom propellers against a store-bought one and force-tested the hull. Every step is in the engineering notebook.",
+    tags: ["Arduino", "Onshape", "3D printing", "Prototyping"],
+    image: null, thumb: "img/thumbs/tidytide.png", model: "models/tidytide.glb", placeholder: "gear",
+    links: [{ label: "Engineering notebook (PDF)", href: "docs/TidyTide_Engineering_Notebook.pdf" }],
+    gallery: [
+      { label: "Pump adapter", src: "img/tidytide/pump-adapter.jpg" },
+      { label: "Basket iterations", src: "img/tidytide/basket-iterations.jpg" },
+      { label: "Propeller V2", src: "img/tidytide/propeller-v2.jpg" },
+      { label: "Base v1 issues", src: "img/tidytide/base-v1.jpg" },
+      { label: "New base", src: "img/tidytide/new-base.jpg" },
+      { label: "Bumper sensors", src: "img/tidytide/bumper-sensor.jpg" },
+    ],
+  },
+  {
+    id: "jackbot",
+    title: "JackBot · FTC Into the Deep",
+    disciplines: ["cs", "meche"],
+    date: "2023 – 25", status: "Lead programmer",
+    summary: "Gear Gurus' robot for the 2024–25 Into the Deep season, where I was lead programmer. I designed custom three-wheel odometry pods and wrote the autonomous on Road Runner 1.2, taking it from not moving at Meet 0 to a five-specimen routine. Tele-op uses three PID loops, IMU field-centric driving and one-button transfers. Top 5% worldwide (top 3% in tele-op) and 1st place Think Award at SoCal Regionals; the odometry work was also part of a world-record, top-1% season.",
+    tags: ["Java", "Road Runner", "Odometry", "PID", "IMU"],
+    image: null, thumb: "img/thumbs/jackbot.png", model: "models/jackbot.glb", placeholder: "wheel", links: [],
+    gallery: [
+      { label: "Robot overview", src: "img/jackbot-overview.jpg" },
+      { label: "Autonomous & odometry", src: "img/jackbot-auto.jpg" },
+    ],
+  },
+];
+
+const EXPERIENCE = [
+  {
+    dates: "2025 — Now",
+    role: "Vice President · Electrical & Software/Controls Project Manager",
+    org: "UC Berkeley RoboSub",
+    points: [
+      "Managing the electrical team's ground-up redesign of the AUV's electrical architecture for the 2026–27 vehicle, under a $1,000 budget.",
+      "Wrote the top-level KiCad schematics for the passive power and adapter cards; onboarded about 8 new members and organized them into per-card teams.",
+      "Coordinating a 3-person sub-team on an STM32 safety board in Altium, and set up the Git workflow they use to review and merge it.",
+      "On software/controls: attitude and depth control, behavior-tree mission logic, and a Unity simulator."
+    ],
+  },
+  {
+    dates: "2023 — 2025",
+    role: "Lead Programmer",
+    org: "FTC Team 7832 Gear Gurus · Heritage High School",
+    points: [
+      "Wrote the autonomous and tele-op code for our robots, including JackBot for the 2024–25 Into the Deep season.",
+      "Designed custom dead-wheel odometry pods and brought in Road Runner localization, taking our auto from not moving at the first meet to a five-specimen routine.",
+      "Part of a world-record, top-1% season; in Into the Deep we finished top 5% worldwide and won the 1st place Think Award at SoCal Regionals.",
+    ],
+  },
+  {
+    dates: "2024",
+    role: "MITES Semester Scholar",
+    org: "MIT · Astrophysics project course + Science Writing",
+    points: [
+      "MIT's six-month STEM program for high school juniors.",
+      "Wrote a science article on fast radio bursts and how radio interferometry (VLBI) is used to find them.",
+    ],
+    links: [{ label: "Read the article (PDF)", href: "docs/LaMothe_Fast_Radio_Bursts_Article.pdf" }],
+  },
+];
+
+const RESEARCH = [
+  {
+    dates: "Summer 2026",
+    title: "Autonomous ocean-monitoring drones",
+    lab: "Undergraduate Researcher · TAFLab, UC Berkeley",
+    summary: "Built and field-tested drones that measure water temperature, conductivity and wave height, feeding predictive maps of hazardous wave conditions for safer, more fuel-efficient ship routing. I also reworked the sail mechanism through iterative field tests.",
+    figure: "img/taflab-drone.jpg",
+    figureAlt: "Elijah on the dock with the yellow autonomous ocean-monitoring drone",
+    caption: "Field test day with one of the drones.",
+    links: [],      // e.g. [{ label: "Poster", href: "taflab-poster.pdf" }]
+  },
+];
+</script>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const has3D = p => !!(p.model || p.placeholder);
+const canOpen = p => has3D(p) || !!(p.gallery && p.gallery.length);
+const linkBtns = links => (links || []).filter(l => l.href).map(l => `<a class="btn" href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("");
+const DISC = { meche: "MechE", ee: "EE", cs: "CS" };
+
+if (SITE.background) $("#bg").style.backgroundImage = `url("${SITE.background}")`;
+
+/* left column */
+$("#name").textContent = SITE.name;
+$("#role").textContent = SITE.role;
+$("#tagline").textContent = SITE.tagline;
+$("#now").innerHTML = `<b>now</b> · ${esc(SITE.now)}`;
+$("#links").innerHTML = SITE.links.map(l => `<a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("") +
+  `<a href="#" id="copy-email" title="Copy email">${esc(SITE.email)}</a>`;
+$("#copy-email").addEventListener("click", async e => {
+  e.preventDefault();
+  const a = e.currentTarget;
+  try { await navigator.clipboard.writeText(SITE.email); a.textContent = "copied ✓"; }
+  catch { const r = document.createRange(); r.selectNodeContents(a); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  setTimeout(() => a.textContent = SITE.email, 1500);
+});
+const clock = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: SITE.timezone });
+const tick = () => $("#where").textContent = `${SITE.place} · ${clock.format(new Date())}`;
+tick(); setInterval(tick, 30000);
+
+const SECTIONS = [["about", "About"], ["projects", "Projects"], ["experience", "Experience"], ["research", "Research"]];
+$("#toc").innerHTML = SECTIONS.map(([id, label]) => `<a href="#${id}" data-id="${id}">${label}</a>`).join("");
+// nav highlight: pick the section whose top has passed 35% of the screen;
+// at the very bottom of the page, the last section wins (it may be too short to reach that line)
+const tocLinks = [...document.querySelectorAll(".toc a")];
+const setActive = id => tocLinks.forEach(a => a.classList.toggle("on", a.dataset.id === id));
+let lockUntil = 0, ticking = false;
+function updateActive() {
+  ticking = false;
+  if (Date.now() < lockUntil) return;
+  const line = innerHeight * .35;
+  let current = SECTIONS[0][0];
+  for (const [id] of SECTIONS) if (document.getElementById(id).getBoundingClientRect().top <= line) current = id;
+  if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) current = SECTIONS[SECTIONS.length - 1][0];
+  setActive(current);
+}
+addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(updateActive); } }, { passive: true });
+addEventListener("resize", updateActive);
+// run after the rest of the page has rendered (sections are filled in further down this script)
+requestAnimationFrame(updateActive);
+addEventListener("load", updateActive);
+
+// clicking a nav item: highlight it right away and hold that highlight until the scroll finishes,
+// so it doesn't flicker through the sections in between
+$("#toc").addEventListener("click", e => {
+  const a = e.target.closest("a[data-id]"); if (!a) return;
+  e.preventDefault();
+  const target = document.getElementById(a.dataset.id);
+  setActive(a.dataset.id);
+  lockUntil = Date.now() + 1200;
+  const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  target.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+  try { history.replaceState(null, "", "#" + a.dataset.id); } catch {}
+  const release = () => { lockUntil = 0; };
+  if ("onscrollend" in window) addEventListener("scrollend", release, { once: true });
+});
+
+/* about */
+$("#about-body").innerHTML = ABOUT.bio.map(t => `<p>${t}</p>`).join("");
+$("#skills").innerHTML = ABOUT.skills.map(s => `<div><h3>${esc(s.group)}</h3><div class="pills">${s.items.map(i => `<span class="pill">${esc(i)}</span>`).join("")}</div></div>`).join("");
+
+/* projects */
+// scope-screen panel for projects with nothing to show yet
+function wipPanel(w) {
+  const pts = Array.from({length: 121}, (_, i) => { const x = i * 2.5, t = i / 120 * Math.PI * 6; return `${x.toFixed(1)},${(50 - 26 * Math.sin(t) * (0.55 + 0.45 * Math.cos(t / 3))).toFixed(1)}`; }).join(" ");
+  const grid = [...Array(9)].map((_, i) => `<line x1="${i * 37.5}" y1="0" x2="${i * 37.5}" y2="100"/>`).join("") + [...Array(5)].map((_, i) => `<line x1="0" y1="${i * 25}" x2="300" y2="${i * 25}"/>`).join("");
+  return `<div class="thumb wip" role="img" aria-label="Planned signal path: ${esc(w.stages.join(", "))}">
+    <svg viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true"><g class="grid">${grid}</g><polyline points="${pts}"/></svg>
+    <div class="chain">${w.stages.map(t => `<span>${esc(t)}</span>`).join("<i>→</i>")}</div>
+    <span class="hint">${esc(w.caption)}</span>
+  </div>`;
+}
+$("#grid").innerHTML = PROJECTS.map(p => {
+  const meta = [p.disciplines.map(d => DISC[d]).join(" / "), p.date, p.status].filter(Boolean).join(" · ");
+  const thumb = (p.image || canOpen(p)) ? `<button class="thumb" type="button" ${canOpen(p) ? `data-open="${esc(p.id)}" aria-label="${has3D(p) ? "Rotate " + esc(p.title) + " in 3D" : "View " + esc(p.title) + " diagrams"}"` : "disabled"}>
+      ${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : p.thumb ? `<img src="${esc(p.thumb)}" alt="" data-thumb loading="lazy">` : `<img alt="" data-snap="${esc(p.id)}" hidden>`}
+      ${has3D(p) ? `<span class="hint">drag to rotate ↻</span>` : canOpen(p) ? `<span class="hint">view diagrams →</span>` : ""}
+    </button>` : p.wip ? wipPanel(p.wip) : "";
+  return `<article class="card" data-disc="${p.disciplines.join(" ")}">
+    ${thumb}
+    <div class="card-body">
+      <span class="meta">${esc(meta)}</span>
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.summary)}</p>
+      ${p.note ? `<p class="note">${esc(p.note)}</p>` : ""}
+      <div class="tags">${(p.tags || []).map(t => `<span>${esc(t)}</span>`).join("")}</div>
+      ${p.gallery && p.gallery.length ? `<div class="views">${has3D(p) ? `<button type="button" data-open="${esc(p.id)}" data-tab="3d">3D model</button>` : ""}${p.gallery.map((g, i) => `<button type="button" data-open="${esc(p.id)}" data-tab="${i}">${esc(g.label)}</button>`).join("")}</div>` : ""}
+      ${p.links && p.links.some(l => l.href) ? `<div class="actions">${linkBtns(p.links)}</div>` : ""}
+    </div>
+  </article>`;
+}).join("");
+
+function setFilter(f) {
+  $("#filters").innerHTML = [["all", "All"], ["meche", "MechE"], ["ee", "EE"], ["cs", "CS"]].map(([k, l]) =>
+    `<button type="button" class="filter" data-f="${k}" aria-pressed="${k === f}">${l}</button>`).join("");
+  document.querySelectorAll("#grid .card").forEach(c => c.hidden = !(f === "all" || c.dataset.disc.split(" ").includes(f)));
+}
+setFilter("all");
+$("#filters").addEventListener("click", e => { const b = e.target.closest("[data-f]"); if (b) setFilter(b.dataset.f); });
+
+/* experience + research */
+$("#xp").innerHTML = EXPERIENCE.map(x => `<article class="row">
+  <span class="when">${esc(x.dates)}</span>
+  <div><h3>${esc(x.role)}</h3><p class="org">${esc(x.org)}</p><ul>${x.points.map(p => `<li>${esc(p)}</li>`).join("")}</ul>
+    ${x.links && x.links.some(l => l.href) ? `<div class="actions">${linkBtns(x.links)}</div>` : ""}</div>
+</article>`).join("");
+$("#research-rows").innerHTML = RESEARCH.map(r => `<article class="row">
+  <span class="when">${esc(r.dates)}</span>
+  <div><h3>${esc(r.title)}</h3><p class="org">${esc(r.lab)}</p><p>${esc(r.summary)}</p>
+    ${r.figure ? `<figure class="photo"><img src="${esc(r.figure)}" alt="${esc(r.figureAlt || r.title)}" loading="lazy">${r.caption ? `<figcaption>${esc(r.caption)}</figcaption>` : ""}</figure>` : ""}
+    ${r.links && r.links.some(l => l.href) ? `<div class="actions">${linkBtns(r.links)}</div>` : ""}
+  </div>
+</article>`).join("");
+
+$("#footer").innerHTML = `Built by ${esc(SITE.name)} with plain HTML and three.js.<br>${esc(SITE.credit)}`;
+
+/* 3D dialog (viewer is in the module below) */
+const dlg = $("#model-dialog");
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-open]"); if (!b) return;
+  const p = PROJECTS.find(x => x.id === b.dataset.open); if (!p) return;
+  $("#dlg-title").textContent = p.title;
+  $("#dlg-meta").textContent = [p.date, p.status].filter(Boolean).join(" · ");
+  $("#dlg-summary").textContent = p.summary;
+  $("#dlg-status").textContent = (has3D(p) && !p.model) ? "Placeholder model. Set model: in PROJECTS to show your own." : "";
+  $("#dlg-actions").innerHTML = linkBtns(p.links);
+  const gal = p.gallery || [];
+  const tabs = (has3D(p) ? [`<button type="button" class="tab" role="tab" data-tab="3d">3D model</button>`] : [])
+    .concat(gal.map((g, i) => `<button type="button" class="tab" role="tab" data-tab="${i}">${esc(g.label)}</button>`));
+  $("#dlg-tabs").hidden = tabs.length < 2;
+  $("#dlg-tabs").innerHTML = tabs.join("");
+  dlg.dataset.pid = p.id;
+  dlg.showModal();
+  if (has3D(p)) { window.__pending3D = p; document.dispatchEvent(new CustomEvent("viewer:open", { detail: p })); }
+  showTab(b.dataset.tab || (has3D(p) ? "3d" : "0"));
+});
+function showTab(t) {
+  const p = PROJECTS.find(x => x.id === dlg.dataset.pid); if (!p) return;
+  const g = t === "3d" ? null : (p.gallery || [])[+t];
+  $("#modal-stage").hidden = !!g;
+  $("#dlg-pic").hidden = !g;
+  $("#dlg-hint").hidden = !!g;
+  const vid = $("#dlg-vid"), img = $("#dlg-img");
+  if (!g || !g.video) { vid.pause(); vid.hidden = true; }
+  if (g && g.video) {
+    img.hidden = true; vid.hidden = false;
+    if (vid.dataset.cur !== g.src) {
+      vid.dataset.cur = g.src; vid.poster = g.poster || "";
+      // WebM first (plays everywhere incl. Chromium builds without H.264), MP4 as the fallback
+      const webm = g.src.replace(/\.mp4$/, ".webm");
+      vid.innerHTML = `<source src="${esc(webm)}" type="video/webm"><source src="${esc(g.src)}" type="video/mp4">`;
+      vid.load();
+    }
+    vid.play().catch(() => {});
+    $("#dlg-full").href = g.src; $("#dlg-full").textContent = "Open video ↗";
+  } else if (g) {
+    img.hidden = false; img.src = g.src; img.alt = `${g.label} for ${p.title}`;
+    $("#dlg-full").href = g.src; $("#dlg-full").textContent = "Open full size ↗";
+  }
+  document.querySelectorAll("#dlg-tabs .tab").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === (g ? String(t) : "3d"))));
+}
+$("#dlg-tabs").addEventListener("click", e => { const b = e.target.closest("[data-tab]"); if (b) showTab(b.dataset.tab); });
+$("#dlg-close").addEventListener("click", () => dlg.close());
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+dlg.addEventListener("close", () => { $("#dlg-vid").pause(); document.dispatchEvent(new Event("viewer:close")); });
+</script>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+/* ---------- 3D viewer (three.js). Drop .glb files in /models and set model: "models/x.glb" ---------- */
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// placeholders: soft toon shading with dark outlines (anime-ish, not glossy CAD)
+const ramp = new THREE.DataTexture(new Uint8Array([110, 185, 255]), 3, 1, THREE.RedFormat);
+ramp.minFilter = ramp.magFilter = THREE.NearestFilter; ramp.needsUpdate = true;
+const mats = new Map();
+const toon = c => { if (!mats.has(c)) mats.set(c, new THREE.MeshToonMaterial({ color: c, gradientMap: ramp })); return mats.get(c); };
+const OUTLINE = new THREE.MeshBasicMaterial({ color: 0x150e1e, side: THREE.BackSide });
+function m(geo, color, x = 0, y = 0, z = 0) {
+  const mesh = new THREE.Mesh(geo, toon(color)); mesh.position.set(x, y, z);
+  geo.computeBoundingBox();
+  const s = new THREE.Vector3(), c = new THREE.Vector3(); geo.boundingBox.getSize(s); geo.boundingBox.getCenter(c);
+  const t = Math.min(.022, Math.min(s.x, s.y, s.z) * .3);
+  const o = new THREE.Mesh(geo, OUTLINE);
+  o.scale.set(1 + 2 * t / Math.max(s.x, 1e-3), 1 + 2 * t / Math.max(s.y, 1e-3), 1 + 2 * t / Math.max(s.z, 1e-3));
+  o.position.set(c.x * (1 - o.scale.x), c.y * (1 - o.scale.y), c.z * (1 - o.scale.z));
+  mesh.add(o); return mesh;
+}
+const Box = (w, h, d) => new THREE.BoxGeometry(w, h, d);
+const Cyl = (r, h, seg = 24) => new THREE.CylinderGeometry(r, r, h, seg);
+const INK = "#4a3d5e", LIGHT = "#f4eef8", PINK = "#f5a9c6", GOLD = "#f2c86a", MASK = "#8a74e0";
+
+function gearGeo(teeth, rOut, rRoot, rHole, depth) {
+  const sh = new THREE.Shape(), step = Math.PI * 2 / teeth;
+  for (let i = 0; i < teeth; i++) {
+    const a = i * step;
+    [[rRoot, a], [rOut, a + step * .18], [rOut, a + step * .42], [rRoot, a + step * .6]].forEach(([r, t], j) => {
+      const x = r * Math.cos(t), y = r * Math.sin(t); (i === 0 && j === 0) ? sh.moveTo(x, y) : sh.lineTo(x, y);
+    });
+  }
+  sh.closePath();
+  const hole = new THREE.Path(); hole.absarc(0, 0, rHole, 0, Math.PI * 2, true); sh.holes.push(hole);
+  const g = new THREE.ExtrudeGeometry(sh, { depth, bevelEnabled: true, bevelThickness: .02, bevelSize: .02, bevelSegments: 2, curveSegments: 24 });
+  g.center(); g.rotateX(-Math.PI / 2); return g;
+}
+
+const PLACEHOLDERS = {
+  sub() {
+    const g = new THREE.Group();
+    const hull = m(new THREE.CapsuleGeometry(.42, 1.5, 8, 24), LIGHT); hull.rotation.z = Math.PI / 2; g.add(hull);
+    const band = m(Cyl(.45, .12, 32), PINK); band.rotation.z = Math.PI / 2; band.position.x = .4; g.add(band);
+    for (const z of [-.4, .4]) g.add(m(Box(2.1, .08, .08), INK, 0, -.52, z));
+    for (const x of [-.6, .6]) for (const z of [-.4, .4]) g.add(m(Box(.06, .2, .06), INK, x, -.4, z));
+    for (const x of [-.8, .8]) for (const z of [-.62, .62]) { g.add(m(Cyl(.15, .16), PINK, x, -.25, z)); g.add(m(Box(.06, .06, .24), INK, x, -.25, z * .78)); }
+    for (const z of [-.3, .3]) { const t = m(Cyl(.13, .24), PINK); t.rotation.z = Math.PI / 2; t.position.set(-1.3, -.08, z); g.add(t); }
+    const dome = m(new THREE.SphereGeometry(.24, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), "#a8e1ff"); dome.rotation.z = -Math.PI / 2; dome.position.x = 1.16; g.add(dome);
+    return g;
+  },
+  pcb() {
+    const g = new THREE.Group();
+    g.add(m(Box(2.6, .08, 1.7), MASK));
+    for (const [x, z, w, d] of [[-.45, .25, .6, .6], [.6, -.35, .42, .42], [.75, .45, .32, .2]]) g.add(m(Box(w, .08, d), "#2a2036", x, .08, z));
+    for (let i = 0; i < 7; i++) g.add(m(Cyl(.06, .14, 12), "#e8dfe6", -1.05 + i * .15, .11, -.6));
+    for (let i = 0; i < 10; i++) g.add(m(Box(.06, .3, .06), GOLD, -1.05 + i * .13, .19, .72));
+    g.add(m(Box(.38, .24, .5), LIGHT, 1.08, .16, -.05));
+    for (const x of [-1.18, 1.18]) for (const z of [-.73, .73]) g.add(m(Cyl(.09, .09, 16), GOLD, x, .005, z));
+    return g;
+  },
+  quad() {
+    const g = new THREE.Group(); g.userData.spin = [];
+    g.add(m(Box(.56, .16, .56), INK)); g.add(m(Box(.4, .08, .4), PINK, 0, .12, 0));
+    for (const a of [Math.PI / 4, -Math.PI / 4]) { const arm = m(Box(2.1, .06, .1), LIGHT); arm.rotation.y = a; g.add(arm); }
+    [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(([sx, sz], i) => {
+      const x = sx * .74, z = sz * .74;
+      g.add(m(Cyl(.11, .15, 16), INK, x, .08, z));
+      const prop = m(Box(.9, .015, .08), "#ffc2d6", x, .17, z); prop.userData.dir = (i % 3 === 0 ? 1 : -1) * 25; g.add(prop); g.userData.spin.push(prop);
+    });
+    return g;
+  },
+  gear() {
+    const g = new THREE.Group();
+    const big = m(gearGeo(16, 1, .86, .22, .26), PINK); big.userData.dir = .6;
+    const small = m(gearGeo(10, .62, .5, .14, .26), LIGHT); small.position.set(1.47, 0, 0); small.rotation.y = Math.PI / 10; small.userData.dir = -.96;
+    g.add(big, small, m(Cyl(.2, .6), INK, 0, .1, 0), m(Cyl(.12, .6), INK, 1.47, .1, 0));
+    g.userData.spin = [big, small];
+    return g;
+  },
+  wheel() {
+    const g = new THREE.Group(), spinner = new THREE.Group();
+    const rim = m(Cyl(.8, .14, 48), LIGHT); rim.rotation.x = Math.PI / 2; spinner.add(rim);
+    const hub = m(Cyl(.3, .3, 32), INK); hub.rotation.x = Math.PI / 2; spinner.add(hub);
+    for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; const r = m(Cyl(.1, .3, 16), PINK, Math.cos(a) * .88, Math.sin(a) * .88, 0); r.rotation.z = a; spinner.add(r); }
+    spinner.userData.dir = .5; spinner.userData.axis = "z";
+    const shaft = m(Cyl(.05, 1, 12), "#e8dfe6", 0, 0, -.25); shaft.rotation.x = Math.PI / 2;
+    g.add(spinner, shaft, m(Box(.5, .5, .3), MASK, 0, 0, -.65));
+    g.userData.spin = [spinner];
+    return g;
+  },
+  housing() {
+    const g = new THREE.Group();
+    const tube = m(Cyl(.48, 1.6, 40), "#dff3ff"); tube.rotation.z = Math.PI / 2; g.add(tube);
+    for (const x of [-.86, .86]) { const f = m(Cyl(.58, .12, 40), INK); f.rotation.z = Math.PI / 2; f.position.x = x; g.add(f); }
+    const cap = m(Cyl(.58, .08, 40), LIGHT); cap.rotation.z = Math.PI / 2; cap.position.x = -.96; g.add(cap);
+    for (const [y, z] of [[.25, .2], [.25, -.2], [-.2, 0], [0, .32], [0, -.32]]) { const p = m(Cyl(.06, .22, 12), PINK); p.rotation.z = Math.PI / 2; p.position.set(-1.08, y, z); g.add(p); }
+    const dome = m(new THREE.SphereGeometry(.5, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), "#a8e1ff"); dome.rotation.z = -Math.PI / 2; dome.position.x = .92; g.add(dome);
+    g.add(m(Box(1.3, .06, .9), INK, 0, -.62, 0));
+    return g;
+  },
+  scope() {
+    const g = new THREE.Group();
+    g.add(m(Box(2, 1.2, .9), LIGHT));
+    g.add(m(Box(1.15, .74, .04), "#1d2440", -.35, .1, .46));
+    const pts = []; for (let i = 0; i <= 60; i++) { const t = i / 60; pts.push(new THREE.Vector3(-.85 + t, .1 + .22 * Math.sin(t * Math.PI * 6) * Math.exp(-t * 1.2), .49)); }
+    g.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 120, .012, 6), new THREE.MeshBasicMaterial({ color: "#7ff5d0" })));
+    for (const [x, y] of [[.5, .3], [.78, .3], [.5, 0], [.78, 0]]) { const k = m(Cyl(.08, .08, 16), INK, x, y, .47); k.rotation.x = Math.PI / 2; g.add(k); }
+    for (const x of [.45, .64, .83]) { const p = m(Cyl(.055, .06, 12), GOLD, x, -.36, .47); p.rotation.x = Math.PI / 2; g.add(p); }
+    for (const x of [-.85, .85]) g.add(m(Box(.2, .06, .7), INK, x, -.63, 0));
+    return g;
+  },
+};
+
+const loader = new GLTFLoader();
+loader.setMeshoptDecoder(MeshoptDecoder);   // big CAD exports are meshopt-compressed
+async function buildObject(p, setStatus) {
+  if (p.model) {
+    try {
+      // preview builds can embed models as base64 (window.EMBEDDED_MODELS); the real site loads the .glb file
+      const b64 = window.EMBEDDED_MODELS && window.EMBEDDED_MODELS[p.model];
+      if (b64) { const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0)); return (await loader.parseAsync(bytes.buffer, "")).scene; }
+      return (await loader.loadAsync(p.model)).scene;
+    }
+    catch { setStatus && setStatus(`Couldn't load ${p.model}. Showing the placeholder.`); }
+  }
+  return (PLACEHOLDERS[p.placeholder] || PLACEHOLDERS.gear)();
+}
+function fit(obj, rotate) {
+  const holder = new THREE.Group(), inner = new THREE.Group();
+  inner.add(obj);
+  if (rotate) obj.rotation.set(...rotate.map(d => THREE.MathUtils.degToRad(d)));
+  const box = new THREE.Box3().setFromObject(inner), size = box.getSize(new THREE.Vector3()), c = box.getCenter(new THREE.Vector3());
+  const k = 2.3 / Math.max(size.x, size.y, size.z, 1e-6);
+  inner.position.set(-c.x, -box.min.y, -c.z);
+  holder.add(inner); holder.scale.setScalar(k);
+  holder.userData.height = size.y * k; holder.userData.spin = obj.userData.spin || [];
+  return holder;
+}
+function lights(scene) {
+  scene.add(new THREE.HemisphereLight(0xfff0f7, 0x6a5a8a, 1.8));
+  const d = new THREE.DirectionalLight(0xffffff, 2.3); d.position.set(3, 5, 2.5); scene.add(d);
+}
+const disposeTree = o => o.traverse(n => n.geometry && n.geometry.dispose());
+
+// aim a camera so the whole object fits, from a 3/4 view above
+function frame(cam, obj, pad = 1.08) {
+  const sphere = new THREE.Box3().setFromObject(obj).getBoundingSphere(new THREE.Sphere());
+  const fov = THREE.MathUtils.degToRad(cam.fov), aspect = cam.aspect || 1;
+  const fit = Math.min(Math.sin(fov / 2), Math.sin(Math.atan(Math.tan(fov / 2) * aspect)));
+  const dist = sphere.radius / fit * pad;
+  const dir = new THREE.Vector3(3.3, 2.3, 3.9).normalize();
+  cam.position.copy(sphere.center).addScaledVector(dir, dist);
+  cam.lookAt(sphere.center);
+  return sphere.center;
+}
+class Viewer {
+  constructor(host) {
+    this.host = host; host.querySelector(".fallback")?.remove();
+    this.r = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.r.setPixelRatio(Math.min(devicePixelRatio, 2)); this.r.outputColorSpace = THREE.SRGBColorSpace;
+    host.appendChild(this.r.domElement);
+    this.scene = new THREE.Scene(); lights(this.scene);
+    this.cam = new THREE.PerspectiveCamera(35, 1, .01, 200);
+    this.controls = new OrbitControls(this.cam, this.r.domElement);
+    Object.assign(this.controls, { enableDamping: true, enablePan: false, autoRotate: !reduce, autoRotateSpeed: 1.2, minDistance: 1.5, maxDistance: 14 });
+    let idle;
+    this.controls.addEventListener("start", () => { this.controls.autoRotate = false; clearTimeout(idle); });
+    this.controls.addEventListener("end", () => { idle = setTimeout(() => this.controls.autoRotate = !reduce, 3500); });
+    this.r.domElement.addEventListener("dblclick", () => this.reset());
+    new ResizeObserver(() => this.resize()).observe(host); this.resize();
+    this.running = true;
+    const clock = new THREE.Clock();
+    const loop = () => {
+      requestAnimationFrame(loop);
+      const dt = Math.min(clock.getDelta(), .05);
+      if (!this.running || document.hidden) return;
+      if (this.obj && !reduce) for (const s of this.obj.userData.spin) s.userData.axis === "z" ? s.rotation.z += dt * s.userData.dir : s.rotation.y += dt * s.userData.dir;
+      this.controls.update(); this.r.render(this.scene, this.cam);
+    };
+    loop();
+  }
+  resize() { const w = this.host.clientWidth, h = this.host.clientHeight; if (!w || !h) return; this.r.setSize(w, h, false); this.cam.aspect = w / h; this.cam.updateProjectionMatrix(); }
+  reset() {
+    if (!this.obj) return;
+    const c = frame(this.cam, this.obj, 1.02);
+    this.controls.target.copy(c); this.controls.update();
+  }
+  async show(p, setStatus) {
+    if (this.obj) { this.scene.remove(this.obj); disposeTree(this.obj); this.obj = null; }
+    const token = (this.token = {});
+    const raw = await buildObject(p, setStatus);
+    if (token !== this.token) return;
+    this.obj = fit(raw, p.rotate); this.scene.add(this.obj); this.reset();
+  }
+}
+
+let modal = null;
+const dlgStatus = t => (document.getElementById("dlg-status").textContent = t);
+function openModal(p) {
+  try { if (!modal) modal = new Viewer(document.getElementById("modal-stage")); modal.running = true; modal.resize(); modal.show(p, dlgStatus); }
+  catch { dlgStatus("3D needs WebGL, which this browser has turned off."); }
+}
+document.addEventListener("viewer:open", e => openModal(e.detail));
+document.addEventListener("viewer:close", () => { if (modal) modal.running = false; });
+if (window.__pending3D && document.getElementById("model-dialog").open) openModal(window.__pending3D);
+
+// card thumbnails: render each 3D object once to a picture
+(async () => {
+  let r;
+  try { r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true }); } catch { return; }
+  r.setSize(560, 350, false); r.outputColorSpace = THREE.SRGBColorSpace;
+  for (const img of document.querySelectorAll("img[data-snap]")) {
+    const p = PROJECTS.find(x => x.id === img.dataset.snap); if (!p) continue;
+    const scene = new THREE.Scene(); lights(scene);
+    const cam = new THREE.PerspectiveCamera(30, 16 / 10, .01, 200);
+    const obj = fit(await buildObject(p), p.rotate); scene.add(obj);
+    frame(cam, obj, 1.02);
+    r.render(scene, cam); img.src = r.domElement.toDataURL("image/png"); img.hidden = false;
+    disposeTree(obj);
+  }
+  r.dispose(); r.forceContextLoss();
+})();
+</script>
+</body>
+</html>
