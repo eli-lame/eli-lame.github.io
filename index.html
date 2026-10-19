@@ -264,7 +264,7 @@ const SITE = {
   tagline: "I build robots, and the boards and code that run them.",
   place: "Berkeley, CA",
   timezone: "America/Los_Angeles",
-  now: "rebuilding RoboSub's electronics",
+  now: "rebuilding the electronics for Underwater Robotics at Berkeley",
   background: "img/background.jpg",
   email: "elamothe@berkeley.edu",
   links: [
@@ -277,7 +277,7 @@ const SITE = {
 
 const ABOUT = {
   bio: [
-    "I study <strong>mechanical engineering with an EECS minor at UC Berkeley</strong>, class of 2029. Most of my time goes into <strong>UC Berkeley RoboSub</strong>, where I'm vice president and project manager for both the electrical and software/controls teams on our 2026–27 vehicle.",
+    "I study <strong>mechanical engineering with an EECS minor at UC Berkeley</strong>, class of 2029. Most of my time goes into <strong>Underwater Robotics at Berkeley</strong>, where I'm vice president and project manager for both the electrical and software/controls teams on our 2026–27 vehicle.",
     "I like work that crosses mechanical, electrical and software lines: designing the mechanical side, laying out the boards, and writing the firmware that runs it all. This summer I did research at <strong>TAFLab</strong>, building and field-testing autonomous ocean-monitoring drones.",
   ],
   skills: [
@@ -294,7 +294,7 @@ const PROJECTS = [
     title: "Tardigrade Electrical Stack",
     disciplines: ["ee"],
     date: "2025 – Now", status: "Prototype due Dec 2026",
-    summary: "Electrical architecture for RoboSub's next vehicle: three stacked cards on one keyed 2×20 connector. A passive power card switches the thrusters, a Nucleo-G431KB adapter card runs flight control, and an STM32 safety card decides when thrusters can turn on. Every kill path except a lost Jetson works without firmware, and it all talks CAN to the Jetson for under $1,000.",
+    summary: "Electrical architecture for the next Underwater Robotics at Berkeley vehicle: three stacked cards on one keyed 2×20 connector. A passive power card switches the thrusters, a Nucleo-G431KB adapter card runs flight control, and an STM32 safety card decides when thrusters can turn on. Every kill path except a lost Jetson works without firmware, and it all talks CAN to the Jetson for under $1,000.",
     tags: ["Architecture", "CAN", "STM32", "Power", "Safety"],
     image: "img/tardigrade-thumb.jpg", model: null, placeholder: null, links: [],
     gallery: [
@@ -338,7 +338,7 @@ const PROJECTS = [
   },
   {
     id: "robosub-software",
-    title: "RoboSub Software & Controls",
+    title: "Underwater Robotics at Berkeley Software & Controls",
     disciplines: ["cs"],
     date: "2025 – Now", status: "In progress",
     summary: "The autonomy stack for Tardigrade: a modular ROS 2 setup on a Jetson AGX Xavier that splits perception, localization, mission planning and control. ZED visual odometry plus a VectorNav IMU estimate the vehicle's state, BehaviorTree.CPP runs the Gate and Slalom missions, and PX4 on a Pixhawk handles low-level stabilization. Perception uses YOLOv11n trained on synthetic data, with XFeat feature matching to line up with the gate. Before pool time, we test the vehicle in a Gazebo underwater sim.",
@@ -400,7 +400,7 @@ const EXPERIENCE = [
   {
     dates: "2025 — Now",
     role: "Vice President · Electrical & Software/Controls Project Manager",
-    org: "UC Berkeley RoboSub",
+    org: "Underwater Robotics at Berkeley",
     points: [
       "Managing the electrical team's ground-up redesign of the AUV's electrical architecture for the 2026–27 vehicle, under a $1,000 budget.",
       "Wrote the top-level KiCad schematics for the passive power and adapter cards; onboarded about 8 new members and organized them into per-card teams.",
